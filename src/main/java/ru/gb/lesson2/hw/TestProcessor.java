@@ -4,7 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TestProcessor {
 
@@ -29,12 +32,26 @@ public class TestProcessor {
         }
 
         List<Method> methods = new ArrayList<>();
+        HashMap<Integer, Method> methodMap = new HashMap<>();
         for (Method method : testClass.getDeclaredMethods()) {
+            checkTestMethod(method);
             if (method.isAnnotationPresent(Test.class)) { // <- проверить на наличие beforeAll и afterAll
-                checkTestMethod(method);
-                methods.add(method);
+//                methods.add(method);
+                methodMap.put(2, method);
+            }
+            if (method.isAnnotationPresent(BeforeAll.class)) {
+                methodMap.put(1, method);
+            }
+            if (method.isAnnotationPresent(AfterAll.class)) {
+                methodMap.put(3, method);
             }
         }
+
+        methods = methodMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+
 
         methods.forEach(it -> runTest(it, testObj));
     }

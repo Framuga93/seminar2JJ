@@ -21,9 +21,18 @@ public class Homework {
 
   static class MyTest {
 
+    @AfterAll
+    void afterAllTest(){
+      System.out.println("after all run");
+    }
     @Test
     void firstTest() {
       System.out.println("firstTest запущен");
+    }
+
+    @BeforeAll
+    void beforeAllTest(){
+      System.out.println("Before all run");
     }
 
     @Test
