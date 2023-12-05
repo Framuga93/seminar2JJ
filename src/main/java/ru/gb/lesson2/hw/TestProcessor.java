@@ -34,7 +34,6 @@ public class TestProcessor {
             throw new RuntimeException("Не удалось создать объект класса \"" + testClass.getName() + "\"");
         }
 
-        List<Method> methods = new ArrayList<>();
         Map<Integer, List<Method>> methodMap = new HashMap<>();
         int index = 0;
         for (Method method : testClass.getDeclaredMethods()) {
@@ -51,16 +50,11 @@ public class TestProcessor {
             methodMap.computeIfAbsent(index,k -> new ArrayList<>()).add(method);
         }
 
-        for (int k : methodMap.keySet()){
-            List<Method> v = methodMap.get(k);
-            if (v != null){
-                for (Method method : v){
-                    if (method != null){
-                        runTest(method,testObj);
-                    }
-                }
-            }
-        }
+        methodMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .peek(listOfMethods -> listOfMethods.forEach(mtd -> runTest(mtd, testObj)))
+                .collect(Collectors.toList());
     }
 
 
