@@ -1,5 +1,8 @@
 package ru.gb.lesson2.hw;
 
+import ru.gb.lesson2.anno.Annotations;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,28 +35,32 @@ public class TestProcessor {
         }
 
         List<Method> methods = new ArrayList<>();
-        HashMap<Integer, List<Method>> methodMap = new HashMap<>();
+        Map<Integer, List<Method>> methodMap = new HashMap<>();
+        int index = 0;
         for (Method method : testClass.getDeclaredMethods()) {
             checkTestMethod(method);
             if (method.isAnnotationPresent(Test.class)) { // <- проверить на наличие beforeAll и afterAll
-                List<Method> tempList = new ArrayList<>();
-                methodMap.put(2, method);
+                index = 2;
             }
             if (method.isAnnotationPresent(BeforeAll.class)) {
-                methodMap.put(1, method);
+                index = 1;
             }
             if (method.isAnnotationPresent(AfterAll.class)) {
-                methodMap.put(3, method);
+                index = 3;
             }
+            methodMap.computeIfAbsent(index,k -> new ArrayList<>()).add(method);
         }
 
-        methods = methodMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
-
-
-        methods.forEach(it -> runTest(it, testObj));
+        for (int k : methodMap.keySet()){
+            List<Method> v = methodMap.get(k);
+            if (v != null){
+                for (Method method : v){
+                    if (method != null){
+                        runTest(method,testObj);
+                    }
+                }
+            }
+        }
     }
 
 
