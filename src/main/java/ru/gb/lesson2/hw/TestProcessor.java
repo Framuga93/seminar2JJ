@@ -32,11 +32,11 @@ public class TestProcessor {
         }
 
         List<Method> methods = new ArrayList<>();
-        HashMap<Integer, Method> methodMap = new HashMap<>();
+        HashMap<Integer, List<Method>> methodMap = new HashMap<>();
         for (Method method : testClass.getDeclaredMethods()) {
             checkTestMethod(method);
             if (method.isAnnotationPresent(Test.class)) { // <- проверить на наличие beforeAll и afterAll
-//                methods.add(method);
+                List<Method> tempList = new ArrayList<>();
                 methodMap.put(2, method);
             }
             if (method.isAnnotationPresent(BeforeAll.class)) {
