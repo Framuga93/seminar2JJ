@@ -25,9 +25,14 @@ public class Homework {
     void afterAllTest(){
       System.out.println("after all run");
     }
-    @Test(order = 1)
+    @Test(order = 2)
     void firstTest() {
       System.out.println("firstTest запущен");
+    }
+
+    @Skip
+    void skipTest() {
+      System.out.println("пропущен");
     }
 
     @BeforeAll
@@ -35,7 +40,7 @@ public class Homework {
       System.out.println("Before all run");
     }
 
-    @Test(order = 2)
+    @Test(order = 1)
     void secondTest() {
       System.out.println("secondTest запущен");
     }

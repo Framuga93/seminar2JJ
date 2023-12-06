@@ -43,6 +43,8 @@ public class TestProcessor {
         methodMap.put(3, afterAllList);
         for (Method method : testClass.getDeclaredMethods()) {
             checkTestMethod(method);
+            if (method.isAnnotationPresent(Skip.class))
+                continue;
             if (method.isAnnotationPresent(Test.class)) { // <- проверить на наличие beforeAll и afterAll
                 testList.add(method);
             }
@@ -54,10 +56,15 @@ public class TestProcessor {
             }
         }
 
+        List<Method> sortTest = sortTestMethodsByOrder(testList);
+        methodMap.put(2, sortTest);
+
+
+
         methodMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
-                .forEach(l -> runTest(l,testObj));
+                .forEach(l -> l.forEach(m -> runTest(m,testObj)));
     }
 
 
