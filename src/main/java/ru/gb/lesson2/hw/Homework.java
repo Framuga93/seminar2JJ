@@ -25,7 +25,7 @@ public class Homework {
     void afterAllTest(){
       System.out.println("after all run");
     }
-    @Test
+    @Test(order = 1)
     void firstTest() {
       System.out.println("firstTest запущен");
     }
@@ -35,7 +35,7 @@ public class Homework {
       System.out.println("Before all run");
     }
 
-    @Test
+    @Test(order = 2)
     void secondTest() {
       System.out.println("secondTest запущен");
     }
