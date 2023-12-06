@@ -34,7 +34,6 @@ public class TestProcessor {
         }
 
         Map<Integer, List<Method>> methodMap = new HashMap<>();
-        int index = 0;
         List<Method> beforeAllList = new ArrayList<>();
         List<Method> afterAllList = new ArrayList<>();
         List<Method> testList = new ArrayList<>();
