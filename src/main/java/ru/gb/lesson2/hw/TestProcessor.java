@@ -34,7 +34,6 @@ public class TestProcessor {
         }
 
         Map<Integer, List<Method>> methodMap = new HashMap<>();
-        int index = 0;
         List<Method> beforeAllList = new ArrayList<>();
         List<Method> afterAllList = new ArrayList<>();
         List<Method> testList = new ArrayList<>();
@@ -85,11 +84,11 @@ public class TestProcessor {
     }
 
     private static List<Method> sortTestMethodsByOrder(List<Method> methodList){
-        List<Method> res = Arrays.stream(Homework.MyTest.class.getDeclaredMethods())
+        return Arrays.stream(Homework.MyTest.class.getDeclaredMethods())
                 .filter(m -> m.getAnnotation(Test.class) != null)
                 .sorted(Comparator.comparingInt(m -> m.getAnnotation(Test.class).order()))
                 .toList();
-        return res;
+
     }
 
 }
