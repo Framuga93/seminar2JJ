@@ -45,7 +45,7 @@ public class TestProcessor {
             checkTestMethod(method);
             if (method.isAnnotationPresent(Skip.class))
                 continue;
-            if (method.isAnnotationPresent(Test.class)) { // <- проверить на наличие beforeAll и afterAll
+            if (method.isAnnotationPresent(Test.class)) {
                 testList.add(method);
             }
             if (method.isAnnotationPresent(BeforeAll.class)) {
